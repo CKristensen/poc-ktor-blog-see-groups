@@ -47,15 +47,19 @@ fun Application.setupAuth() {
                 val idTokenString = principal.extraParameters["id_token"]
                     ?: throw Exception("id_token wasn't returned")
                 val idToken = idVerifier.decode(idTokenString, null)
-
                 val fullName = (idToken.claims["name"] ?: accessToken.claims["sub"] ?: "UNKNOWN_NAME").toString()
+                val groups = (idToken.claims["groups"] ?: "UNKNOWN_GROUP").toString()
 
-                println("User $fullName logged in successfully")
+
+                println("jwt: $idTokenString")
 
                 val session = UserSession(
                     username = fullName.replace("[^a-zA-Z0-9]".toRegex(), ""),
-                    idToken = idTokenString
+                    idToken = idTokenString,
+                    groups = groups
                 )
+                println("User $fullName logged in successfully")
+                println("User is in group $groups")
 
                 call.sessions.set(session)
                 call.respondRedirect("/")

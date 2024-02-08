@@ -10,5 +10,6 @@ data class BlogRecord(
 
 data class UserSession(
     val username: String,
-    val idToken: String
+    val idToken: String,
+    val groups: String
 )

@@ -21,7 +21,10 @@ fun Application.setupRoutes() = routing {
 
     get("/{username?}") {
         val username = call.parameters["username"]
-        call.respondHtmlTemplate(MainTemplate(call.session?.username)) {
+        call.respondHtmlTemplate(MainTemplate(call.session?.username,
+           currentGroups = call.session?.groups?.split(",") ?: emptyList()
+
+            )) {
             content {
                 val canSendMessage = call.session != null
                 if (username == null) feedPage("🏠 Home feed", blogRecords.all, canSendMessage)

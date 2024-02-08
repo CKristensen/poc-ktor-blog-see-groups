@@ -14,7 +14,8 @@ private val timeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.ME
  * Generic web page template, contains content placeholder where
  * content should be placed
  */
-class MainTemplate(private val currentUsername: String? = null) : Template<HTML> {
+class MainTemplate(private val currentUsername: String? = null,
+    private val currentGroups: List<String>? = null ) : Template<HTML> {
     val content = Placeholder<HtmlBlockTag>()
     override fun HTML.apply() {
         head {
@@ -34,6 +35,9 @@ class MainTemplate(private val currentUsername: String? = null) : Template<HTML>
                             if (currentUsername != null) {
                                 a(href = "/${currentUsername}", classes = "nav-link mr-4") {
                                     +"Hello, $currentUsername"
+                                }
+                                p(classes = "navbar-text mr-4") {
+                                    +"Groups: $currentGroups"
                                 }
                                 a(href = "/logout", classes = "nav-link") {
                                     +"Logout"
